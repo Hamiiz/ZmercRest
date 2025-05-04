@@ -1,0 +1,26 @@
+{
+  "name": "zmercapi",
+  "version": "1.0.0",
+  "description": "rest api for zmercado react application",
+  "license": "ISC",
+  "author": "Hamza M",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "better-auth": "^1.2.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.14.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.1",
+    "typescript": "^5.8.3"
+  }
+}
