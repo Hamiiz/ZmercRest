@@ -14,7 +14,7 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 ## Prerequisites
 
 - Node.js (v16 or higher)
-- MongoDB
+- PostgreSql
 - npm or yarn
 
 ## Installation
@@ -83,6 +83,30 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 - **bcrypt**: Password hashing.
 
 
+## Contributing
+
+Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix:
+    ```bash
+    git checkout -b feature-name
+    ```
+3. Commit your changes:
+    ```bash
+    git commit -m "Description of changes"
+    ```
+4. Push to your branch:
+    ```bash
+    git push origin feature-name
+    ```
+5. Open a pull request on GitHub.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ## Author
+
+Developed by Hamza M.
 Developed by Hamza M.  
