@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // url      = env("SUPABASE_DB")
+  // directUrl = env("DIRECT_URL")
+}
+model User{
+  id  Int @id @default(autoincrement())
+  name String @db.VarChar(50)
+  email String? @db.VarChar(50) @unique 
+  username String @db.VarChar(50) @unique
+  password String @db.Text()
+  UserRoles UserRoles[] 
+  Product Product[]
+  GotPayed Payment[] @relation(name: "payerRelation")
+  PayedTo Payment[] @relation(name: "OwnerRelation")
+  Oauth Oauth[]
+  @@index([username,email])
+}
+model Oauth{
+  providerId Int
+  accessToken String @db.Text()
+  tokenExpiration DateTime @db.Date()
+  Uid Int 
+  provider String @db.Text()
+  user User @relation(fields: [Uid], references: [id])
+  @@id([Uid,providerId])
+
+}
+model Roles{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(10) @unique
+  UserRoles UserRoles[]
+  Permissions Permission[]
+}
+
+model UserRoles{
+  Uid Int
+  RoleId Int
+  role Roles @relation(fields:[RoleId],references:[id]) 
+  user User @relation(fields: [Uid],references: [id],onDelete: Cascade)
+  @@id([Uid,RoleId])
+}
+
+model Permission{
+  id Int @id @default(autoincrement())
+  RoleId Int
+  role Roles @relation(fields:[RoleId],references:[id])
+  permission String @db.Text()
+}
+
+model Product{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(30)
+  description String @db.Text()
+  date_created DateTime @default(now()) @db.Timestamp(3)
+  stock Int @default(0)
+  rating Float @default(0)
+  OwnerId Int
+  Owner User @relation(fields: [OwnerId], references: [id], onDelete: Cascade)
+  Payment Payment[]
+}
+model Payment{
+  id Int @id @default(autoincrement())
+  ProductId Int 
+  PayerId Int
+  OwnerId Int
+  Product Product @relation(fields: [ProductId], references: [id])
+  Payer User @relation(fields: [PayerId] , references: [id],name: "payerRelation")
+  Owner User @relation(fields: [OwnerId],references: [id],name: "OwnerRelation")
+  amount Float
+  date DateTime @default(now()) @db.Timestamp(3)
+
+}

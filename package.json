@@ -4,23 +4,27 @@
   "description": "rest api for zmercado react application",
   "license": "ISC",
   "author": "Hamza M",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "tsc && nodemon dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "better-auth": "^1.2.7",
+    "@prisma/client": "^6.7.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongodb": "^6.16.0",
-    "mongoose": "^8.14.1"
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.16.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "prisma": "^6.7.0",
     "typescript": "^5.8.3"
   }
 }
