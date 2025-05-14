@@ -16,7 +16,7 @@ logs/
 # Build outputs
 dist/
 build/
-generated/
+generated/prisma
 generated/**
 # IDE specific files
 .vscode/
