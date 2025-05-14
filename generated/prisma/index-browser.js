@@ -125,15 +125,47 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   username: 'username',
-  password: 'password'
+  emailVerified: 'emailVerified',
+  image: 'image',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  displayUsername: 'displayUsername'
 };
 
-exports.Prisma.OauthScalarFieldEnum = {
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  expiresAt: 'expiresAt',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  userId: 'userId'
+};
+
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  accountId: 'accountId',
   providerId: 'providerId',
+  userId: 'userId',
   accessToken: 'accessToken',
-  tokenExpiration: 'tokenExpiration',
-  Uid: 'Uid',
-  provider: 'provider'
+  refreshToken: 'refreshToken',
+  idToken: 'idToken',
+  accessTokenExpiresAt: 'accessTokenExpiresAt',
+  refreshTokenExpiresAt: 'refreshTokenExpiresAt',
+  scope: 'scope',
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
@@ -165,8 +197,8 @@ exports.Prisma.ProductScalarFieldEnum = {
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   ProductId: 'ProductId',
-  PayerId: 'PayerId',
   OwnerId: 'OwnerId',
+  PayerId: 'PayerId',
   amount: 'amount',
   date: 'date'
 };
@@ -189,7 +221,9 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Oauth: 'Oauth',
+  Session: 'Session',
+  Account: 'Account',
+  Verification: 'Verification',
   Roles: 'Roles',
   UserRoles: 'UserRoles',
   Permission: 'Permission',

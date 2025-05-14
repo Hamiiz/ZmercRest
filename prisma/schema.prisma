@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -9,71 +10,120 @@ datasource db {
   // url      = env("SUPABASE_DB")
   // directUrl = env("DIRECT_URL")
 }
-model User{
-  id  Int @id @default(autoincrement())
-  name String @db.VarChar(50)
-  email String? @db.VarChar(50) @unique 
-  username String @db.VarChar(50) @unique
-  password String @db.Text()
-  UserRoles UserRoles[] 
-  Product Product[]
-  GotPayed Payment[] @relation(name: "payerRelation")
-  PayedTo Payment[] @relation(name: "OwnerRelation")
-  Oauth Oauth[]
-  @@index([username,email])
-}
-model Oauth{
-  providerId Int
-  accessToken String @db.Text()
-  tokenExpiration DateTime @db.Date()
-  Uid Int 
-  provider String @db.Text()
-  user User @relation(fields: [Uid], references: [id])
-  @@id([Uid,providerId])
 
+model User {
+  id            String      @id @default(uuid())
+  name          String?
+  email         String?
+  username      String?
+  emailVerified Boolean?
+  image         String?
+  createdAt     DateTime?
+  updatedAt     DateTime?
+  UserRoles     UserRoles[]
+  Product       Product[]
+  GotPayed      Payment[]   @relation(name: "payerRelation")
+  PayedTo       Payment[]   @relation(name: "OwnerRelation")
+  sessions      Session[]
+  accounts      Account[]
+
+  displayUsername String?
+
+  @@unique([email, username])
+  @@map("user")
 }
-model Roles{
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(10) @unique
-  UserRoles UserRoles[]
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Roles {
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(10) @unique
+  UserRoles   UserRoles[]
   Permissions Permission[]
 }
 
-model UserRoles{
-  Uid Int
+model UserRoles {
+  Uid    String
   RoleId Int
-  role Roles @relation(fields:[RoleId],references:[id]) 
-  user User @relation(fields: [Uid],references: [id],onDelete: Cascade)
-  @@id([Uid,RoleId])
+  role   Roles  @relation(fields: [RoleId], references: [id])
+  user   User   @relation(fields: [Uid], references: [id], onDelete: Cascade)
+
+  @@id([Uid, RoleId])
 }
 
-model Permission{
-  id Int @id @default(autoincrement())
-  RoleId Int
-  role Roles @relation(fields:[RoleId],references:[id])
-  permission String @db.Text()
+model Permission {
+  id         Int    @id @default(autoincrement())
+  RoleId     Int
+  role       Roles  @relation(fields: [RoleId], references: [id])
+  permission String @db.Text
 }
 
-model Product{
-  id Int @id @default(autoincrement())
-  name String @db.VarChar(30)
-  description String @db.Text()
-  date_created DateTime @default(now()) @db.Timestamp(3)
-  stock Int @default(0)
-  rating Float @default(0)
-  OwnerId Int
-  Owner User @relation(fields: [OwnerId], references: [id], onDelete: Cascade)
-  Payment Payment[]
+model Product {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(30)
+  description  String    @db.Text
+  date_created DateTime  @default(now()) @db.Timestamp(3)
+  stock        Int       @default(0)
+  rating       Float     @default(0)
+  OwnerId      String
+  Owner        User      @relation(fields: [OwnerId], references: [id], onDelete: Cascade)
+  Payment      Payment[]
 }
-model Payment{
-  id Int @id @default(autoincrement())
-  ProductId Int 
-  PayerId Int
-  OwnerId Int
-  Product Product @relation(fields: [ProductId], references: [id])
-  Payer User @relation(fields: [PayerId] , references: [id],name: "payerRelation")
-  Owner User @relation(fields: [OwnerId],references: [id],name: "OwnerRelation")
-  amount Float
-  date DateTime @default(now()) @db.Timestamp(3)
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  ProductId Int
+  OwnerId   String
+  PayerId   String
+  Product   Product  @relation(fields: [ProductId], references: [id])
+  Payer     User     @relation(fields: [PayerId], references: [id], name: "payerRelation")
+  Owner     User     @relation(fields: [OwnerId], references: [id], name: "OwnerRelation")
+  amount    Float
+  date      DateTime @default(now()) @db.Timestamp(3)
 
 }
+
+
