@@ -17,6 +17,7 @@ dist/
 
 # Prisma generated files
 generated/prisma/
+generated/
 
 # Gulp temporary files
 .gulp/
