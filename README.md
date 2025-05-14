@@ -33,8 +33,9 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 3. Set up environment variables:
     Create a `.env` file in the root directory and configure the following variables:
     ```env
-    DATABASE_URL=mongodb://localhost:27017/your-database
+    DATABASE_URL=YOUR-POSTGRES-STRING
     JWT_SECRET=your-secret-key
+    BETTER_AUTH_SECRET=your-secret-key
     ```
 
 4. Generate Prisma client:
@@ -49,7 +50,7 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
     npm start
     ```
 
-2. Access the API at `http://localhost:3000`.
+2. Access the API at `http://localhost:1000`.
 
 ## Scripts
 
@@ -59,11 +60,12 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 ## API Endpoints
 
 ### Authentication
-- `POST /auth/login`: User login.
-- `POST /auth/register`: User registration.
+- `POST /auth/sign-up/email`: User registration.
+- `POST /auth/sign-in/email`: User login.
+- `POST /auth/sign-in/username`: User login.
 
 ### Users
-- `GET /users`: Get all users.    
+- `GET /getuser`: Get all users.    
 - `GET /users/:id`: Get a user by ID. //under development
 - `POST /users`: Create a new user. //under development
 - `PUT /users/:id`: Update a user. //under development
@@ -78,9 +80,10 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 - **Node.js**: Backend runtime.
 - **Express**: Web framework.
 - **Prisma**: ORM for database management.
-- **MongoDB**: Database.
+- **postgresql**: Database.
 - **JWT**: Authentication.
 - **bcrypt**: Password hashing.
+- **Better-auth**: Authentication.
 
 
 ## Contributing
