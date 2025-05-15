@@ -9,7 +9,9 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 - CRUD operations for users, roles, and products.
 - Secure password hashing with bcrypt.
 - Integration with MongoDB for data storage.
-- Environment configuration using dotenv.
+- Middleware for token validation using `jose`.
+- Prisma ORM for database management.
+- Environment-based configuration using `dotenv`.
 
 ## Prerequisites
 
@@ -63,6 +65,7 @@ ZMercRestAPI is a RESTful API designed for the ZMercado React application. It pr
 - `POST /auth/sign-up/email`: User registration.
 - `POST /auth/sign-in/email`: User login.
 - `POST /auth/sign-in/username`: User login.
+- `GET /auth/token`: User JWT Token.
 
 ### Users
 - `GET /getuser`: Get all users.    

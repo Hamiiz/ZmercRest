@@ -1,6 +1,7 @@
+import 'dotenv/config'
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { username } from "better-auth/plugins"
+import { createAuthMiddleware, username,jwt } from "better-auth/plugins"
 import { PrismaClient } from "../generated/prisma";
  
 const prisma = new PrismaClient({
@@ -18,24 +19,46 @@ export const auth = betterAuth({
         autoSignIn:false
     
     },
-    additionalFields: {
-        // username: {
-        //   type: "string",
-        //   required: false,
 
-        // },
-    },
     plugins: [
         username({
-            minUsernameLength: 5,
+            minUsernameLength: 5,    
+        }),
+        jwt({
+            jwt: {
+                
+                issuer: process.env.JWT_ISSUER,
+                audience:'Zmercado',
+                expirationTime: "1h",
             
-        })
+              definePayload: ({user}) => {
+                return {
+                  id: user.id,
+                  email: user.email,
+                  role: user.role
+                }
+              },
+
+            }
+          })
     ],
-    advanced: {
-        database: {
-        //   generateId: false,
-        },
+    hooks: {
+        after:createAuthMiddleware(async (ctx) => {
+            if (ctx.path === "/sign-up/email") {
+                return {
+                    context: {
+                        path: ctx.path, // if needed
+                        method: ctx.method, // if needed
+                        body: {
+                            ...ctx.body,
+                            username: username,
+                       
+                        },
+                    },
+                };
+            }
+        }),
+        
     },
-  
 
 });
