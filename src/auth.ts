@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { createAuthMiddleware, username,jwt } from "better-auth/plugins"
+import { createAuthMiddleware, username,jwt, getJwtToken } from "better-auth/plugins"
 import { PrismaClient } from "../generated/prisma";
  
 const prisma = new PrismaClient({
@@ -18,6 +18,21 @@ export const auth = betterAuth({
         enabled: true,
         autoSignIn:false
     
+    },
+    socialProviders: {
+        google: { 
+            prompt: "select_account", 
+            clientId: process.env.GOOGLE_CLIENT_ID as string, 
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            redirectURI:'http://localhost:5173',
+            mapProfileToUser: (profile) => {
+                return {
+                  name: `${profile.given_name} ${profile.family_name}`,
+                  email:profile.email,
+                    
+                }
+            }, 
+        }, 
     },
 
     plugins: [
