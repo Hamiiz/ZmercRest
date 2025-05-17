@@ -33,6 +33,19 @@ export const auth = betterAuth({
                 }
             }, 
         }, 
+        github: { 
+            clientId: process.env.GITHUB_CLIENT_ID as string, 
+            clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
+            redirectURI:'http://localhost:5173',
+            mapProfileToUser: (profile) => {
+                return {
+                  name: `${profile.name} `,
+                  email:profile.email,
+                  username:profile.gravatar_id 
+                    
+                }
+            }, 
+        }, 
     },
 
     plugins: [
