@@ -17,6 +17,7 @@ let  validateToken : RequestHandler = async (req:Request,res:Response,next:NextF
       issuer: process.env.JWT_ISSUER, // Should match your JWT issuer, which is the BASE_URL
       audience: 'Zmercado', // Should match your JWT audience, which is the BASE_URL by default
     })
+    console.log(payload)
     req.user = payload as Request["user"]
     next();
   } catch (error) {

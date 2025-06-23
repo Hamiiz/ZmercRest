@@ -29,6 +29,8 @@ model User {
 
   displayUsername String?
 
+  isAnonymous Boolean?
+
   @@unique([email, username])
   @@map("user")
 }

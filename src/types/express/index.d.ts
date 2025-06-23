@@ -13,7 +13,7 @@ declare global {
         aud?: string;
         exp?: number;
         sub?: string;
-        role?: string;
+        role?: any;
       };
     }
   }

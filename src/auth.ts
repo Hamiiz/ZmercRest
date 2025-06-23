@@ -1,7 +1,7 @@
 import 'dotenv/config'
-import { betterAuth } from "better-auth";
+import { betterAuth, createLogger, logger } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { createAuthMiddleware, username,jwt, getJwtToken } from "better-auth/plugins"
+import { createAuthMiddleware, username,jwt, getJwtToken,anonymous } from "better-auth/plugins"
 import { PrismaClient } from "../generated/prisma";
  
 const prisma = new PrismaClient({
@@ -9,6 +9,9 @@ const prisma = new PrismaClient({
   });
   
 export const auth = betterAuth({
+logger:{
+    level:'info',
+},
     basePath:"/auth",
     trustedOrigins:['http://localhost:5173'],
     database: prismaAdapter(prisma, {
@@ -16,32 +19,37 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {  
         enabled: true,
-        autoSignIn:false
-    
+        autoSignIn:true
+        
     },
+
     socialProviders: {
         google: { 
             prompt: "select_account", 
             clientId: process.env.GOOGLE_CLIENT_ID as string, 
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-            redirectURI:'http://localhost:5173',
+            redirectURI: "http://localhost:1000/auth/callback/google",
+            overrideUserInfoOnSignIn:true,
             mapProfileToUser: (profile) => {
                 return {
-                  name: `${profile.given_name} ${profile.family_name}`,
+                    name: `${profile.given_name} ${profile.family_name}`,
                   email:profile.email,
-                    
+                  image:profile.picture
+                  
                 }
             }, 
         }, 
         github: { 
             clientId: process.env.GITHUB_CLIENT_ID as string, 
             clientSecret: process.env.GITHUB_CLIENT_SECRET as string, 
-            redirectURI:'http://localhost:5173',
+            redirectURI: "http://localhost:1000/auth/callback/github",
+            overrideUserInfoOnSignIn:true,
             mapProfileToUser: (profile) => {
                 return {
                   name: `${profile.name} `,
                   email:profile.email,
-                  username:profile.gravatar_id 
+                  username:profile.gravatar_id ,
+                  image:profile.avatar_url
                     
                 }
             }, 
@@ -54,21 +62,32 @@ export const auth = betterAuth({
         }),
         jwt({
             jwt: {
-                
-                issuer: process.env.JWT_ISSUER,
-                audience:'Zmercado',
-                expirationTime: "1h",
-            
-              definePayload: ({user}) => {
+              issuer: process.env.JWT_ISSUER,
+              audience: 'Zmercado',
+              expirationTime: "1h",
+              definePayload: async ({ user }) => {
+                // Fetch user roles from the database
+                const userWithRoles = await prisma.user.findUnique({
+                  where: { id: user.id },
+                  include: { UserRoles: { include: { role: true } } }, // Include roles
+                });
+          
+                if (!userWithRoles) {
+                  throw new Error("User not found");
+                }
+          
+                // Extract role names
+                const roles = userWithRoles?.UserRoles.map((userRole) => userRole.role.name);
+          
                 return {
                   id: user.id,
                   email: user.email,
-                  role: user.role
-                }
+                  roles, // Include roles in the payload
+                };
               },
-
-            }
-          })
+            },
+          }),
+        anonymous({})
     ],
     hooks: {
         after:createAuthMiddleware(async (ctx) => {
@@ -80,12 +99,16 @@ export const auth = betterAuth({
                         body: {
                             ...ctx.body,
                             username: username,
+                            jwt:getJwtToken
                        
                         },
                     },
                 };
             }
+                
+            
         }),
+      
         
     },
 
