@@ -3,7 +3,9 @@ import { betterAuth, createLogger, logger } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { createAuthMiddleware, username,jwt, getJwtToken,anonymous } from "better-auth/plugins"
 import { PrismaClient } from "../generated/prisma";
- 
+import { emailOTP } from "better-auth/plugins"
+import SendEmail from './services/email';
+
 const prisma = new PrismaClient({
     log: [ 'error', 'warn'],
   });
@@ -88,6 +90,16 @@ logger:{
             },
           }),
         anonymous({})
+        ,
+        emailOTP({ 
+            async sendVerificationOTP({ email, otp, type}) { 
+                // Implement the sendVerificationOTP method to send the OTP to the user's email address
+            await SendEmail(email,'Human', Number(otp))
+      
+            }, 
+            // sendVerificationOnSignUp:true,
+
+    }) 
     ],
     hooks: {
         after:createAuthMiddleware(async (ctx) => {
@@ -111,5 +123,10 @@ logger:{
       
         
     },
+    account:{
+        accountLinking:{
+            enabled:false
+        },
+    }
 
 });
