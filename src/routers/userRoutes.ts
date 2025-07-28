@@ -15,7 +15,6 @@ UserRouter.all('/auth/{*splat}',toNodeHandler(auth))
 UserRouter.use('/getuser',validateToken)
 UserRouter.route('/getuser')
 .all(async(req,res)=>{
-    console.log(req.user)
     let users = await prisma.user.findMany()
  
     res.status(200).json(users)
@@ -27,7 +26,6 @@ UserRouter.route('/add_info')
     if (!data){
         res.status(401)
     }
-    console.log(data)
     let {id,name,phone,select} = data
     try{
         await prisma.user.update({
@@ -63,7 +61,7 @@ UserRouter.route('/add_info')
 
 
 
-UserRouter.use('/addroles',express.json())
+UserRouter.use('/addroles',validateToken,express.json())
 UserRouter.route('/addroles')
 .post(async (req,res)=>{
     let data = req.body;
