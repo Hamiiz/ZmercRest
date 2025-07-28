@@ -91,11 +91,13 @@ logger:{
           }),
         anonymous({})
         ,
-        emailOTP({ 
+        emailOTP({
+            otpLength:6,
             async sendVerificationOTP({ email, otp, type}) { 
+                
                 // Implement the sendVerificationOTP method to send the OTP to the user's email address
             await SendEmail(email,'Human', Number(otp))
-      
+     
             }, 
             // sendVerificationOnSignUp:true,
 
@@ -124,9 +126,7 @@ logger:{
         
     },
     account:{
-        accountLinking:{
-            enabled:false
-        },
+   
     }
 
 });
