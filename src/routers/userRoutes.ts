@@ -1,12 +1,10 @@
 import express, { Request } from "express";
-// At the top of your route file
 
 import { PrismaClient } from "../../generated/prisma";
 let UserRouter = express.Router()
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "../auth";
 import  validateToken  from "../middlewares/jwtVerify";
-import { jwt } from "better-auth/plugins";
 
 
 let prisma = new PrismaClient()

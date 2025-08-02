@@ -108,6 +108,10 @@ model Product {
   name         String    @db.VarChar(30)
   description  String    @db.Text
   date_created DateTime  @default(now()) @db.Timestamp(3)
+  price        Float      
+  image        String?
+  model        String?    @db.Text
+  condition        String?    @db.Text
   stock        Int       @default(0)
   rating       Float     @default(0)
   OwnerId      String
