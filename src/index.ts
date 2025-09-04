@@ -6,6 +6,7 @@ import { fromNodeHeaders } from "better-auth/node";
 import { auth } from "./auth"; // Your Better Auth instance
 import SendEmail from "./services/email";
 import prodRouter from "./routers/productRoutes";
+import paymentRouter from "./routers/paymentRoutes";
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors({
 }));
 app.use(UserRouter)
 app.use(prodRouter)
+app.use(paymentRouter)
 
 app.route('/')
 .get(async (req, res) => {
