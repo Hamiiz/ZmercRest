@@ -69,9 +69,41 @@ prodRouter.route('/products')
 
 prodRouter.route('/getProducts')
 .get(async(req , res)=>{
+
+  if (req?.query?.lim){
+    try {
+      const products = await prisma.product.findMany({
+        take:parseInt(req.query.lim as string)
+      });
+     
+      res.status(200).json(products)
+  
+    }catch(err){
+      res.status(500).send(err)
+    }
+    
+  }else{
+
+      try {
+        const products = await prisma.product.findMany();
+    
+        res.status(200).json(products)
+    
+      }catch(err){
+        res.status(500).send(err)
+      }
+  }
+})
+
+prodRouter.route('/getProduct/:id')
+.get(async(req , res)=>{
+  const {id} = req.params
   try {
-    const products = await prisma.product.findMany();
-    res.status(200).json(products)
+    const product = await prisma.product.findUnique({
+        where:{id:parseInt(id)}
+    });
+ 
+    res.status(200).json(product)
 
   }catch(err){
     res.status(500).send(err)
