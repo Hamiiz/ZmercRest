@@ -101,7 +101,7 @@ paymentRouter.route("/payment/callback").post(async (req, res): Promise<any> => 
 
   pids = pids.split(" ");
   pids = pids.map(Number);
-  console.log('pids',pids)
+  console.log('pidds',pids)
   try {
     if (isPaid) {
       
