@@ -6,17 +6,26 @@
   "author": "Hamza M",
   "main": "./dist/index.js",
   "scripts": {
-    "start": "tsc && nodemon dist/index.js",
+    "start": "tsc && nodemon --delay 2.5s dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "@getbrevo/brevo": "^2.2.0",
     "@prisma/client": "^6.7.0",
+    "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.2.7",
+    "chapa-nodejs": "^2.0.1",
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "jsrsasign": "^11.1.0",
+    "multer": "^2.0.2",
+    "sib-api-v3-sdk": "^8.5.0",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -24,6 +33,9 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.1",
     "@types/jsonwebtoken": "^9.0.9",
+    "@types/jsrsasign": "^10.5.15",
+    "@types/multer": "^2.0.0",
+    "@types/streamifier": "^0.1.2",
     "gulp": "^5.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "prisma": "^6.7.0",

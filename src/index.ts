@@ -4,6 +4,9 @@ import {PrismaClient} from "../generated/prisma";
 import UserRouter from "./routers/userRoutes";
 import { fromNodeHeaders } from "better-auth/node";
 import { auth } from "./auth"; // Your Better Auth instance
+import SendEmail from "./services/email";
+import prodRouter from "./routers/productRoutes";
+import paymentRouter from "./routers/paymentRoutes";
 
 
 const app = express();
@@ -18,19 +21,22 @@ app.use(cors({
     
 }));
 app.use(UserRouter)
+app.use(prodRouter)
+app.use(paymentRouter)
 
 app.route('/')
 .get(async (req, res) => {
     let users
     try {
          users = await prisma.user.findMany(); // Await the query
+         let otp =await SendEmail('hmmhsd37@gmail.com','Hamza Mo',454554)
+         res.send(otp)
     } catch (error) {
         console.error(error);
         res.status(500).send("An error occurred");
     } finally {
         await prisma.$disconnect(); // Disconnect in the finally block
     }
-    res.json(users).status(200)
 });
  
 app.get("/api/me", async (req, res) => {

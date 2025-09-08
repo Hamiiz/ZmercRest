@@ -15,7 +15,7 @@ datasource db {
 model User {
   id            String      @id @default(uuid())
   name          String?
-  email         String?
+  email         String
   username      String?
   emailVerified Boolean?
   image         String?
@@ -109,6 +109,10 @@ model Product {
   name         String    @db.VarChar(30)
   description  String    @db.Text
   date_created DateTime  @default(now()) @db.Timestamp(3)
+  price        Float      
+  image        String?
+  model        String?    @db.Text
+  condition        String?    @db.Text
   stock        Int       @default(0)
   rating       Float     @default(0)
   OwnerId      String
@@ -121,10 +125,12 @@ model Payment {
   ProductId Int
   OwnerId   String
   PayerId   String
+  Completed Boolean  @default(false)
   Product   Product  @relation(fields: [ProductId], references: [id])
   Payer     User     @relation(fields: [PayerId], references: [id], name: "payerRelation")
   Owner     User     @relation(fields: [OwnerId], references: [id], name: "OwnerRelation")
   amount    Float
+  txn_ref   String?   @db.Text
   date      DateTime @default(now()) @db.Timestamp(3)
 
 }
