@@ -32,7 +32,6 @@ app.route('/')
          let otp =await SendEmail('hmmhsd37@gmail.com','Hamza Mo',454554)
          res.send(otp)
     } catch (error) {
-        console.error(error);
         res.status(500).send("An error occurred");
     } finally {
         await prisma.$disconnect(); // Disconnect in the finally block
