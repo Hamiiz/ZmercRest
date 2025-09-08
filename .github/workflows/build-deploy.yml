@@ -1,66 +1,66 @@
 name: CD - Build and deploy
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - "**"
-      - "!**.md"
-  pull_request:
-    branches:
-      -main
-services:
-  postgres:
-    image: postgres
-    env:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - 5432:5432
-    options: >-
-      --health-cmd pg_isready
-      --health-interval 10s
-      --health-timeout 5s
-      --health-retries 5
-    
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{ vars.LOCAL_DB }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: setup node
-        uses: actions/setup-node@v5
-        with:
-          node-version: 24
-      - name: install dependencies
-        run: npm install
-      - name: build
-        run: |
-          npx prisma db push
-          npx tsx
-          echo build done
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: build 
-    steps:
-      - name: login to docker hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_ACCESS}} 
-      - name: checkout
-        uses: actions/checkout@v5
-      - name: build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: false
-          dockerfile: Dockerfile
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/zmercrest:latest
+  on:
+    push:
+      branches:
+        - main
+      paths:
+        - "**"
+        - "!**.md"
+    pull_request:
+      branches:
+        -main
+  services:
+    postgres:
+      image: postgres
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+      ports:
+        - 5432:5432
+      options: >-
+        --health-cmd pg_isready
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
+      
+  jobs:
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+      env:
+        DATABASE_URL: ${{ vars.LOCAL_DB }}
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v5
+        - name: setup node
+          uses: actions/setup-node@v5
+          with:
+            node-version: 24
+        - name: install dependencies
+          run: npm install
+        - name: build
+          run: |
+            npx prisma db push
+            npx tsx
+            echo build done
+    deploy:
+      name: Deploy
+      runs-on: ubuntu-latest
+      needs: build 
+      steps:
+        - name: login to docker hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_ACCESS}} 
+        - name: checkout
+          uses: actions/checkout@v5
+        - name: build and push
+          uses: docker/build-push-action@v5
+          with:
+            context: .
+            push: false
+            dockerfile: Dockerfile
+            tags: ${{ secrets.DOCKERHUB_USERNAME }}/zmercrest:latest
 
