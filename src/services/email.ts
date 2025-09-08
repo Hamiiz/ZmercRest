@@ -22,7 +22,7 @@ const email: Brevo.SendSmtpEmail = {
             return response
         })
         .catch((error) => {
-            console.error('Failed to send email:', error.response?.body || error);
+            console.error('Failed to send the email:', error.response?.body || error);
             return error})
     
 }
