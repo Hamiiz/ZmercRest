@@ -58,7 +58,7 @@ prodRouter.route('/products')
           },
          
       })
-     res.status(200).send('successful Upload, product created')
+     res.status(200).send('success , product created')
 
 
   } catch (err) {
