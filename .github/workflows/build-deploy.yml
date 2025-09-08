@@ -27,4 +27,4 @@ jobs:
         run: |
           npx prisma db push
           npx tsx
-
+          echo build done
