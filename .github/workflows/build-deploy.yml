@@ -75,7 +75,6 @@ jobs:
       TB_BASE_URL: ${{ secrets.TB_BASE_URL }}
       WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
       FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
-      CHAPA_SECRET_KEY: ${{ secrets.CHAPA_SECRET_KEY }}
       API_BASE_URL: {{ secrets.API_BASE_URL }}
       JWT_ISSUER: {{ secrets.JWT_ISSUER }}
     steps:
