@@ -71,5 +71,5 @@ jobs:
           dockerfile: Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/zmercrest:latest
           secrets: |
-            "DATABASE_URL: ${{ secrets.SUPABASE_DB }}"
+            database_url=${{ secrets.SUPABASE_DB }}
         

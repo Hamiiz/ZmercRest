@@ -3,9 +3,12 @@ COPY ./package.json .
 COPY ./prisma /prisma
 RUN npm install
 COPY . .
-RUN --mount=type=secret,id=database_url,env=DATABASE_URL="${SUPABASE_DB}" \
-    npx prisma db push \
-    tsc
+RUN --mount=type=secret,id=database_url \
+    DATABASE_URL=$(cat /run/secrets/database_url) \
+    npx prisma db push
+
+# Build TypeScript
+RUN tsc
 EXPOSE 1000
 CMD ["node", "/dist/index.js"]
 
