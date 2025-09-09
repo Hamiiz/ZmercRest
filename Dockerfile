@@ -10,7 +10,7 @@ RUN --mount=type=secret,id=database_url \
     npx prisma db push --force-reset
 
 # Build TypeScript
-RUN tsc
+RUN npx tsc
 EXPOSE 1000
 CMD ["node", "/dist/index.js"]
 
