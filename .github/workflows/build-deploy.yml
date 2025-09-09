@@ -70,7 +70,7 @@ jobs:
           push: false
           dockerfile: Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/zmercrest:latest
-          secrets: |
+          build-args: |
             "DATABASE_URL: ${{ secrets.SUPABASE_DB }}"
             "JWT_SECRET: ${{ secrets.JWT_SECRET }}"
             "BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}"

@@ -1,28 +1,54 @@
 FROM node:alpine
-RUN --mount=type=secret,id=github_token,env=GITHUB_TOKEN \
-    --mount=type=secret,id=supabase_db,env=SUPABASE_DB \
-    --mount=type=secret,id=jwt_secret,env=JWT_SECRET \
-    --mount=type=secret,id=better_auth_secret,env=BETTER_AUTH_SECRET \
-    --mount=type=secret,id=google_client_id,env=GOOGLE_CLIENT_ID \
-    --mount=type=secret,id=google_client_secret,env=GOOGLE_CLIENT_SECRET \
-    --mount=type=secret,id=gh_client_id,env=GITHUB_CLIENT_ID \
-    --mount=type=secret,id=gh_client_secret,env=GITHUB_CLIENT_SECRET \
-    --mount=type=secret,id=chapa_secret_key,env=CHAPA_SECRET_KEY \
-    --mount=type=secret,id=cloudinary_secret,env=CLOUDINARY_SECRET \
-    --mount=type=secret,id=cloudinary_api_key,env=CLOUDINARY_API_KEY \
-    --mount=type=secret,id=cloudinary_cloud_name,env=CLOUDINARY_CLOUD_NAME \
-    --mount=type=secret,id=brevo,env=BREVO \
-    --mount=type=secret,id=cloudname,env=CLOUDNAME \
-    --mount=type=secret,id=telebirr_merchant_id,env=TELEBIRR_MERCHANT_ID \
-    --mount=type=secret,id=fabric_app_id,env=FABRIC_APP_ID \
-    --mount=type=secret,id=short_code,env=SHORT_CODE \
-    --mount=type=secret,id=app_secret,env=APP_SECRET \
-    --mount=type=secret,id=telebirr_private_key,env=TELEBIRR_PRIVATE_KEY \
-    --mount=type=secret,id=tb_base_url,env=TB_BASE_URL \
-    --mount=type=secret,id=web_base_url,env=WEB_BASE_URL \
-    --mount=type=secret,id=frontend_url,env=FRONTEND_URL \
-    --mount=type=secret,id=api_base_url,env=API_BASE_URL \
-    --mount=type=secret,id=jwt_issuer,env=JWT_ISSUER 
+ARG GITHUB_TOKEN
+ARG SUPABASE_DB
+ARG JWT_SECRET
+ARG BETTER_AUTH_SECRET
+ARG GOOGLE_CLIENT_ID
+ARG GOOGLE_CLIENT_SECRET
+ARG GH_CLIENT_ID
+ARG GH_CLIENT_SECRET
+ARG CHAPA_SECRET_KEY
+ARG CLOUDINARY_SECRET
+ARG CLOUDINARY_API_KEY
+ARG CLOUDINARY_CLOUD_NAME
+ARG BREVO
+ARG CLOUDNAME
+ARG TELEBIRR_MERCHANT_ID
+ARG FABRIC_APP_ID
+ARG SHORT_CODE
+ARG APP_SECRET
+ARG TELEBIRR_PRIVATE_KEY
+ARG TB_BASE_URL
+ARG WEB_BASE_URL
+ARG FRONTEND_URL
+ARG API_BASE_URL
+ARG JWT_ISSUER
+
+ENV GITHUB_TOKEN=${GITHUB_TOKEN} \
+SUPABASE_DB=${SUPABASE_DB}\
+JWT_SECRET=${JWT_SECRET}\
+BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}\
+GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}\
+GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}\
+GH_CLIENT_ID=${GH_CLIENT_ID}\
+GH_CLIENT_SECRET=${GH_CLIENT_SECRET}\
+CHAPA_SECRET_KEY=${CHAPA_SECRET_KEY}\
+CLOUDINARY_SECRET=${CLOUDINARY_SECRET}\
+CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}\
+CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}\
+BREVO=${BREVO}\
+CLOUDNAME=${CLOUDNAME}\
+TELEBIRR_MERCHANT_ID=${TELEBIRR_MERCHANT_ID}\
+FABRIC_APP_ID=${FABRIC_APP_ID}\
+SHORT_CODE=${SHORT_CODE}\
+APP_SECRET=${APP_SECRET}\
+TELEBIRR_PRIVATE_KEY=${TELEBIRR_PRIVATE_KEY}\
+TB_BASE_URL=${TB_BASE_URL}\
+WEB_BASE_URL=${WEB_BASE_URL}\
+FRONTEND_URL=${FRONTEND_URL}\
+API_BASE_URL=${API_BASE_URL}\
+JWT_ISSUER=${JWT_ISSUER}
+
 COPY ./package.json .
 COPY ./prisma /prisma
 RUN npm install
