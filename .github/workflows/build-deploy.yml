@@ -16,7 +16,21 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: ${{ vars.SUPABASE_DB }}
+      DATABASE_URL: ${{ vars.LOCAL_DB }}
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -39,6 +53,34 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: build
+    envs:
+      DATABASE_URL: ${{ vars.SUPABASE_URL }}
+      - name: Set environment variables
+        run: |
+          DATABASE_URL: ${{ secrets.SUPABASE_URL }}"
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}"
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}"
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}"
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}"
+          GITHUB_CLIENT_ID: ${{ secrets.GH_CLIENT_ID }}"
+          GITHUB_CLIENT_SECRET: ${{ secrets.GH_CLIENT_SECRET }}"
+          CHAPA_SECRET_KEY: ${{ secrets.CHAPA_SECRET_KEY }}"
+          CLOUDINARY_SECRET: ${{ secrets.CLOUDINARY_SECRET }}"
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}"
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}"
+          BREVO: ${{ secrets.BREVO }}
+          CLOUDNAME: ${{ secrets.CLOUDNAME }}
+          TELEBIRR_MERCHANT_ID: ${{ secrets.TELEBIRR_MERCHANT_ID }}
+          FABRIC_APP_ID: ${{ secrets.FABRIC_APP_ID }}
+          SHORT_CODE: ${{ secrets.SHORT_CODE }}
+          APP_SECRET: ${{ secrets.APP_SECRET }}
+          TELEBIRR_PRIVATE_KEY: ${{ secrets.TELEBIRR_PRIVATE_KEY }}
+          TB_BASE_URL: ${{ secrets.TB_BASE_URL }}
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+          CHAPA_SECRET_KEY: ${{ secrets.CHAPA_SECRET_KEY }}
+          API_BASE_URL: {{ secrets.API_BASE_URL }}
+          JWT_ISSUER: {{ secrets.JWT_ISSUER }}
     steps:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
