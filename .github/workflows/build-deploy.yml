@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: ${{ vars.LOCAL_DB }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
     services:
       postgres:
         image: postgres
