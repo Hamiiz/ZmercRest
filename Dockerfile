@@ -1,11 +1,11 @@
 FROM node:alpine
 
-COPY ./dist /app
 COPY ./package.json .
 COPY ./prisma /prisma
-
-RUN npm install --omit=dev
+RUN npm install
+COPY . .
 RUN npx prisma db push
+RUN tsc
 EXPOSE 1000
-CMD ["node", "/app/index.js"]
+CMD ["node", "/dist/index.js"]
 
