@@ -35,7 +35,7 @@ UserRouter.route('/add_info')
             }
         })
         if(select.length<3){
-            [...select].forEach(async num=>{
+            [select].forEach(async num=>{
                     await prisma.userRoles.create({
                         data:{
                             Uid:id,
