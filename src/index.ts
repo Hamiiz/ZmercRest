@@ -10,7 +10,7 @@ import paymentRouter from "./routers/paymentRoutes";
 
 
 const app = express();
-const port = 1000;
+const port = process.env.PORT || 1000;
 let prisma = new PrismaClient()
 
 
@@ -47,6 +47,6 @@ app.get("/api/me", async (req, res) => {
 
 
 app.listen(port, () => {
-    console.log(`listening on port ${port}`);
+    console.log(`running on ${process.env.API_BASE_URL}`);
     
 });
