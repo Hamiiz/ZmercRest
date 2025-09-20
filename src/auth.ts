@@ -15,7 +15,7 @@ logger:{
     level:'info',
 },
     basePath:"/auth",
-    trustedOrigins:['http://localhost:5173'],
+    trustedOrigins:[process.env.FRONTEND_URL as string ],
     database: prismaAdapter(prisma, {
         provider: "postgresql" // or "mysql", "postgresql", ...etc
     }),
