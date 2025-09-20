@@ -87,6 +87,7 @@ jobs:
         run: |
           mkdir -p ~/.koyeb
           echo "apiToken: $KOYEB_API_TOKEN" > ~/.koyeb.yaml
+          echo "KOYEB_API_TOKEN starts with: ${KOYEB_API_TOKEN:0:6}..."
         env:
           KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
 
