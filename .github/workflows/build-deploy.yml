@@ -83,6 +83,12 @@ jobs:
         run: |
           curl -fsSL https://raw.githubusercontent.com/koyeb/koyeb-cli/master/install.sh | sh
           echo "$HOME/.koyeb/bin" >> $GITHUB_PATH
+      - name: Setup Koyeb credentials
+        run: |
+          mkdir -p ~/.koyeb
+          echo "apiToken: $KOYEB_API_TOKEN" > ~/.koyeb.yaml
+        env:
+          KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
 
       - name: Verify Koyeb CLI
         run: koyeb --help
@@ -91,5 +97,4 @@ jobs:
         env:
           KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
         run: |
-          koyeb login --token $KOYEB_API_TOKEN
           koyeb service redeploy fixed-sofia/zmercrest        
