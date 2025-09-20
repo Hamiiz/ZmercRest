@@ -98,4 +98,4 @@ jobs:
         env:
           KOYEB_API_TOKEN: ${{ secrets.KOYEB_API_TOKEN }}
         run: |
-          koyeb service redeploy fixed-sofia/zmercrest        
+          koyeb service redeploy fixed-sofia/zmercrest --token $KOYEB_API_TOKEN       
