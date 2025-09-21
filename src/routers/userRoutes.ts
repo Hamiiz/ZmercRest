@@ -34,17 +34,18 @@ UserRouter.route('/add_info')
                 name:name
             }
         })
-        if(select.length<3){
-            [select].forEach(async num=>{
-                    await prisma.userRoles.create({
-                        data:{
-                            Uid:id,
-                            RoleId:Number(num)
-                        }
-                    })
+        if(select.length<=13){
+            const roles = select.split('').map(Number); // splits every character into a number
 
-            })
-        }else{
+            for (const roleId of roles) {
+                await prisma.userRoles.create({
+                    data: {
+                        Uid: id,
+                        RoleId: roleId
+                    }
+                });
+            }
+
             res.status(403).send('invalid role')
         }
     
