@@ -21,8 +21,7 @@ logger:{
     }),
     emailAndPassword: {  
         enabled: true,
-        autoSignIn:true
-        
+        autoSignIn:true,
     },
 
     socialProviders: {
@@ -104,25 +103,7 @@ logger:{
     }) 
     ],
     hooks: {
-        after:createAuthMiddleware(async (ctx) => {
-            if (ctx.path === "/sign-up/email") {
-                return {
-                    context: {
-                        path: ctx.path, // if needed
-                        method: ctx.method, // if needed
-                        body: {
-                            ...ctx.body,
-                            username: username,
-                            jwt:getJwtToken
-                       
-                        },
-                    },
-                };
-            }
-                
-            
-        }),
-      
+     
         
     },
     account:{
