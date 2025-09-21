@@ -109,16 +109,19 @@ logger:{
     },
     advanced:{
         cookiePrefix:"Zmercado",
-        crossSubDomainCookies:{
-            enabled:true,
-            domain:"zmercado.netlify.app"
-
-
-        },
-        crossOriginCookies:{
-            enabled:true
-        }
-
+        cookies: {
+            session_token: {
+              name: "Zmercado.session_token",
+              attributes: {
+                path: "/",              // required
+                sameSite: "none",       // allow cross-site cookies
+                secure: true,           // must be true in production (HTTPS)
+                httpOnly: true,         // prevents JS access
+                maxAge: 60 * 60 * 24 * 7, // 7 days
+              },
+            },
+          },
+   
     }
 
 });
