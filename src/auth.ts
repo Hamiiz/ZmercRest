@@ -15,6 +15,7 @@ logger:{
     level:'info',
 },
     basePath:"/auth",
+    crossOrigin: true,
     trustedOrigins:[process.env.FRONTEND_URL as string ],
     database: prismaAdapter(prisma, {
         provider: "postgresql" // or "mysql", "postgresql", ...etc
@@ -106,8 +107,18 @@ logger:{
      
         
     },
-    account:{
-   
+    advanced:{
+        cookiePrefix:"Zmercado",
+        crossSubDomainCookies:{
+            enabled:true,
+            domain:"zmercado.netlify.app"
+
+
+        },
+        crossOriginCookies:{
+            enabled:true
+        }
+
     }
 
 });
