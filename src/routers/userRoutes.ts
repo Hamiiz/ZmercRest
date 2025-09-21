@@ -46,12 +46,12 @@ UserRouter.route('/add_info')
                 });
             }
 
-            res.status(403).send('invalid role')
+            res.status(200).send('Update Successfull')
         }
+        res.status(403).send('invalid role')
     
-        res.status(200).send('Update Successfull')
-    }catch(error){
-        res.status(401).json(error)
+    }catch(error:any){
+        res.status(error?.status).json(error)
     }finally{
         await prisma.$disconnect()
     }
