@@ -49,6 +49,7 @@ paymentRouter
         
      
       } else {
+        console.log(productIds)
         const product = await prisma.product.findUnique({
           where: { id: parseInt(productIds) },
         });
