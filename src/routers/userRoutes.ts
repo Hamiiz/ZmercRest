@@ -51,7 +51,7 @@ UserRouter.route('/add_info')
         res.status(403).send('invalid role')
     
     }catch(error:any){
-        res.status(error?.status).json(error)
+        res.status(500).json(error)
     }finally{
         await prisma.$disconnect()
     }
