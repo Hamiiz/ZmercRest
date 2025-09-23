@@ -7,7 +7,7 @@ RUN --mount=type=secret,id=database_url \
     --mount=type=secret,id=direct_url \
     DATABASE_URL=$(cat /run/secrets/database_url) \
     DIRECT_URL=$(cat /run/secrets/direct_url) \
-    npx prisma db push --force-reset
+    npx prisma db push
 
 # Build TypeScript
 RUN npx tsc
