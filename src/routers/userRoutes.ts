@@ -40,8 +40,8 @@ UserRouter.route('/add_info')
             for (const roleId of roles) {
                 await prisma.userRoles.create({
                     data: {
-                        Uid: id,
-                        RoleId: roleId
+                        Uid: String(id),
+                        RoleId: Number(roleId)
                     }
                 });
             }
