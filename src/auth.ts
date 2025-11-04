@@ -18,7 +18,7 @@ logger:{
     crossOrigin: true,
     trustedOrigins:[process.env.FRONTEND_URL as string ],
     database: prismaAdapter(prisma, {
-        provider: "postgresql" // or "mysql", "postgresql", ...etc
+        provider: "postgresql" // or "mysql", "postjjgresql", ...etc
     }),
     emailAndPassword: {  
         enabled: true,
